@@ -27,7 +27,7 @@ start_loop:				# start loop
 	cmpl $0, %eax			# check if we've reached the end
 	je loop_exit
 	incl %edi			# increment index
-	movl data_items(,%edi,4), %eax 	# load next value
+	movl data_items(,%edi,4), %eax 	# load next value, uses indexed addressing mode
 	cmpl %ebx, %eax		# compare value with largest
 	jle   start_loop		# jump to beginning of loop if current isn't larger
 	movl %eax, %ebx			# make current value the largest
