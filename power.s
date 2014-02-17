@@ -1,5 +1,5 @@
 # Purpose: Program to illustrate how functions works
-# 	   This program will compute the value of 2^3 + 5^2
+# 	   This program will compute the value of 2^3 + 5^2 + 3^2
 #
 #
 # Everything in the main program is stored in registers,
@@ -25,10 +25,18 @@ _start:
 	call power	# call the function
 	addl $8, %esp	# move the stack pointer back
 
-	popl %ebx	# the second answer is already in %eax
-			# pop the first answer from the stack onto %ebx
+	push %eax	# push the second answer onto stack
+	push $2		# push the second argument
+	push $3 	# push the first argument
+	call power
+	addl $8, %esp	# point back to second answer
+
+	popl %ebx	# the third answer is already in %eax
+			# pop the second answer from the stack onto %ebx
 
 	addl %eax, %ebx	# add them together and store the result in %ebx
+	popl %eax	# pop the first answer into %eax
+	addl %eax, %ebx	# add it into the sum of the other two
 
 	movl $1, %eax	# exit (%ebx is returned)
 	int $0x80
