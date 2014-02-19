@@ -72,7 +72,7 @@ open_fd_in:
 	# address of input file name into %ebx
 	movl ST_ARGV_1(%ebp), %ebx
 	# read-only flag
-	movl O_RDONLY, %ecx
+	movl $O_RDONLY, %ecx
 	# this really doesn't matter for reading (permission set)
 	movl $0666, %edx
 	# call Linux
