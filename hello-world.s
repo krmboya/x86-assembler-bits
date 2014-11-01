@@ -1,3 +1,4 @@
+;;; Intel syntax
 section		.text		; program text section
 global		_start		; tell the linker the entry point
 
