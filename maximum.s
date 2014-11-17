@@ -16,20 +16,24 @@ data_items:  	# These are the data items
 	.long 3, 67, 34, 255, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0
 
 .section .text
-	.globl _start
+	
+.globl _start
 
 _start:	
 	movl $0, %edi			# move 0 to the index register
 	movl data_items(,%edi,4), %eax	# load the first byte of data
-	movl %eax, %ebx			# since this is the first item, %eax is the biggest item so far
+	movl %eax, %ebx			# since this is the first item,
+					# %eax is the biggest item so far
 
 start_loop:				# start loop
 	cmpl $0, %eax			# check if we've reached the end
 	je loop_exit			# status read from the stored in the %eflags register
+					# if equal, exit since end has been reached
 	incl %edi			# increment index
 	movl data_items(,%edi,4), %eax 	# load next value, uses indexed addressing mode
 	cmpl %ebx, %eax			# compare value with largest
-	jle   start_loop		# jump to beginning of loop if current isn't larger
+	jle   start_loop		# Checks the %eflags register
+					# jump to beginning of loop if current isn't larger
 	movl %eax, %ebx			# make current value the largest
 	jmp start_loop			# jump to beginning of loop
 

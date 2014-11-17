@@ -10,24 +10,31 @@
 .section .text
 
 .globl _start
-_start:
-	push $3		# push the second argument
-	push $2 	# push the first argument
-	call power	# call the function
-			# pointer in %eip (return address) is pushed to stack
-			# value of %eip changed to address of power
-	addl $8, %esp	# move the stack pointer back
 	
-	push %eax	# save the first answer before calling the next function
+_start:			
+			# First function call
+	pushl $3	# push the second argument
+	pushl $2 	# push the first argument
+	call power	# call function `power`
+			# pointer in %eip (address of the next instruction) is pushed to stack
+			# value of %eip changed to address of power
+	
+	addl $8, %esp	# Move the stack pointer back clearing the earlier passed in parameters
+	
+	pushl %eax	# save the first answer before calling the next function
 
-	push $2		# push the second argument
-	push $5 	# push the first argument
-	call power	# call the function
-	addl $8, %esp	# move the stack pointer back
+			# Second function call
+	pushl $2	# push the second argument
+	pushl $5 	# push the first argument
+	call power	# call the function again
+	
+	addl $8, %esp	# move the stack pointer back clearing the passed in parameters
 
-	push %eax	# push the second answer onto stack
-	push $2		# push the second argument
-	push $3 	# push the first argument
+	pushl %eax	# push the second answer onto stack
+
+			# Third function call
+	pushl $2	# push the second argument
+	pushl $3 	# push the first argument
 	call power
 	addl $8, %esp	# point back to second answer
 
@@ -38,8 +45,9 @@ _start:
 	popl %eax	# pop the first answer into %eax
 	addl %eax, %ebx	# add it into the sum of the other two
 
-	movl $1, %eax	# exit (%ebx is returned)
-	int $0x80
+	movl $1, %eax	# syscall number for exit	
+	int $0x80	
+
 
 # Purpose: 	Calculates the value of a number raised to a power.
 #
@@ -56,11 +64,13 @@ _start:
 #	
 # 		%eax is used for temporary storage
 
-.type power, @function
+.type power, @function  	# tells linker to treat power as a function
 power:
 	pushl %ebp		# save the old base pointer
-	movl %esp, %ebp		# make stack pointer the base pointer
-	subl $4, %esp		# make room for our local storage
+	movl %esp, %ebp		# Make current stack pointer the current base pointer
+				# Used to easily access the parameters passed in
+	
+	subl $4, %esp		# make room for our local storage (1 word 4 bytes long)
 
 	movl 8(%ebp), %ebx	# put the first argument in %ebx (using base pointer addressing mode)
 	movl 12(%ebp), %ecx 	# put the second argument in %ecx
