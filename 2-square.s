@@ -23,4 +23,3 @@ square:
 	movl %ebp, %esp		# restore stack pointer
 	popl %ebp		# restore base pointer to previous value
 	ret
-	

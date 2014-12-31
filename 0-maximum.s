@@ -21,13 +21,15 @@ data_items:  	# These are the data items
 
 _start:	
 	movl $0, %edi			# move 0 to the index register
+					# (immediate and register addressing modes resp.)
 	movl data_items(,%edi,4), %eax	# load the first byte of data
+					# (1st operand is indexed-addressing mode)
 	movl %eax, %ebx			# since this is the first item,
 					# %eax is the biggest item so far
 
 start_loop:				# start loop
 	cmpl $0, %eax			# check if we've reached the end
-	je loop_exit			# status read from the stored in the %eflags register
+	je loop_exit			# status is read from the %eflags register
 					# if equal, exit since end has been reached
 	incl %edi			# increment index
 	movl data_items(,%edi,4), %eax 	# load next value, uses indexed addressing mode

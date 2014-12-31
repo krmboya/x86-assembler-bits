@@ -7,7 +7,8 @@
 .section .text
 
 .globl _start
-.globl factorial 		# would be useful if we want to share this function among other programs
+.globl factorial 		# would be useful if we want to share this function among
+				# other programs
 	
 _start:
 	pushl $4		# we want to get the factorial of 4
@@ -30,6 +31,7 @@ factorial:
 	pushl %ebp		# push old base pointer onto stack
 	movl %esp, %ebp		# point to current stack frame
 	movl 8(%ebp), %eax	# move argument to %eax
+				# (Base pointer addressing mode)
 	cmpl $1, %eax		# check if base case
 	je end_factorial
 	decl %eax		# else, decrement by 1
