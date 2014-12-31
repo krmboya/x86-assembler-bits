@@ -32,5 +32,3 @@ _start:			# _start label
 	movl $0, %ebx	# this is the status number to return to the operating system (required by the exit system call)
 
 	int $0x80 	# wakes up the kernel to run the system call specified in %eax
-	
-	   
