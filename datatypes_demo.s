@@ -1,7 +1,7 @@
 	# Demo program to show how to use datatypes
 
 
-	.data
+	.data  # initialized data segment
 
 hello_world:
 	.ascii "Hello world!"
@@ -22,12 +22,12 @@ integer_array:
 	.int 10,20,30,40,50
 
 
-	.bss
+	.bss  # uninitialized data segment
 
 	.comm large_buffer, 10000
 
 
-	.text
+	.text  # program code segment
 
 	.globl _start
 
