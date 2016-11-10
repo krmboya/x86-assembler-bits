@@ -58,6 +58,12 @@ _start:
 	movl $0, %ecx
 	movl $2, %edi
 	movl $22, integer_array(%ecx, %edi, 4)
+
+	# - Indirect addressing using registers
+	movl $int32, %eax
+	movl (%eax), %ebx
+
+	movl $9, (%eax)
 	
 	# exit syscall
 	movl $1, %eax
